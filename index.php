@@ -36,15 +36,7 @@ try {
     // 获取请求路径
     $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     // 1. 处理根路径 '/'
-    if ($requestPath === '/' || $requestPath === '/index.php' || $requestPath === '') { // 处理常见的根路径变体
-        $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
-        $host = $_SERVER['HTTP_HOST'];
-        header("Content-Type: text/plain; charset=utf-8");
-        http_response_code(200);
-        // 输出类似 Cloudflare Worker 的提示信息
-        echo $scheme . '://' . $host . '/v1';
-        exit;
-    }
+    
     // 2. 构建目标 URL
     // 目标 API 强制使用 HTTPS
     $targetUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions'; // 包含路径和查询参数
