@@ -47,7 +47,9 @@ try {
     }
     // 2. 构建目标 URL
     // 目标 API 强制使用 HTTPS
-    $targetUrl = 'https://' . GEMINI_API_HOST . $_SERVER['REQUEST_URI']; // 包含路径和查询参数
+    $requestUri = $_SERVER['REQUEST_URI'];
+    $requestUriWithoutIndex = str_replace('/index.php', '', $requestUri, 1);
+    $targetUrl = 'https://' . GEMINI_API_HOST . $requestUriWithoutIndex; 
     echo $targetUrl;
     // 3. 初始化 cURL
     $ch = curl_init();
