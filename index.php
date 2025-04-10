@@ -34,7 +34,7 @@ if (!function_exists('getallheaders')) {
 // --- End Helper Function ---
 try {
     // 获取请求路径
-    $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $requestPath = isset($_GET['request_url']) ? $_GET['request_url'] : parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     // 1. 处理根路径 '/'
     if ($requestPath === '/' || $requestPath === '/index.php' || $requestPath === '') { // 处理常见的根路径变体
         $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
@@ -47,10 +47,11 @@ try {
     }
     // 2. 构建目标 URL
     // 目标 API 强制使用 HTTPS
-    $requestUri = $_SERVER['REQUEST_URI'];
-    $requestUriWithoutIndex = str_replace('/index.php', '', $requestUri, 1);
-    $targetUrl = 'https://' . GEMINI_API_HOST . $requestUriWithoutIndex; 
-    echo $targetUrl;
+    $targetPath = isset($_GET['request_url']) ? $_GET['request_url'] : $_SERVER['REQUEST_URI'];
+    $targetUrl = 'https://' . GEMINI_API_HOST . $targetPath;
+    if (!isset($_GET['request_url']) && isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== '') {
+        $targetUrl .= '?' . $_SERVER['QUERY_STRING'];
+    }
     // 3. 初始化 cURL
     $ch = curl_init();
     // 4. 设置 cURL 选项
