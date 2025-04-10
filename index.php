@@ -12,7 +12,7 @@ try {
         echo "https://" . $_SERVER['HTTP_HOST'] . "/v1";
         return;
     }
-
+ 
     $new_url_str = "https://" . GEMINI_API_HOST . $request_uri;
     $new_url = parse_url($new_url_str); // 虽然在这里parse_url 看起来没有直接使用，但为了逻辑对等保留
 
