@@ -18,10 +18,10 @@ try {
 
     // Prepare the new URL
     $newUrl = "https://$GEMINI_API_HOST$requestUrl";
-    
+    echo $newUrl;
     // Get all headers
     $headers = getallheaders();
-    
+    echo  $headers;
     // Get the request body
     $requestBody = file_get_contents('php://input');
     
